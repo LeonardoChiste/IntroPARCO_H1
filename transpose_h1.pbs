@@ -1,0 +1,28 @@
+#!/bin/bash
+# transpose1
+#PBS -N Tjob
+#PBS -o ./Tjob.o
+#PBS -e ./Tjob.e
+#queue name
+#PBS -q short_cpuQ
+#set time
+#PBS -l walltime=0:10:00
+#PBS -l select=1:ncpus=64:ompthreads=64:mem=4gb
+
+module load gcc91
+gcc() {
+   gcc-9.1.0 "$@"
+}
+gcc --version
+cd /home/leonardo.chiste/transpose
+
+gcc -o 2 transp.c -fopenmp -o2
+./2 16
+./2 32
+./2 64
+./2 128
+./2 256
+./2 512
+./2 1024
+./2 2048
+./2 4096
