@@ -16,13 +16,13 @@ gcc() {
 gcc --version
 cd /home/leonardo.chiste/transpose
 
-gcc -o 2 transp.c -fopenmp -o2
-./2 16
-./2 32
-./2 64
-./2 128
-./2 256
-./2 512
-./2 1024
-./2 2048
-./2 4096
+gcc -o transp transp.c -fopenmp -O2
+./transp 16
+./transp 32
+./transp 64
+./transp 128
+./transp 256
+./transp 512
+./transp 1024
+./transp 2048
+./transp 4096
