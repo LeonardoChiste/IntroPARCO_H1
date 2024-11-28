@@ -34,14 +34,14 @@ int checkSymTiling(double **M, int n){
 	int sym=1;
     int jump=8;
     for (int i = 0; i < n; i+=jump){
-    	  for (int j = 0; j < n; j+=jump) {
-         	  for (int k = i; k < i+jump; ++k){
+    	for (int j = 0; j < n; j+=jump) {
+         	for (int k = i; k < i+jump; ++k){
                 for (int h = j; h < j+jump; ++h) {
                     if(M[k][h]!=M[h][k])
            	        sym = 0;
                 }
-         	  }
-    	  }
+         	}
+    	}
     }
     return sym;
 }
@@ -49,12 +49,12 @@ void matTransposeTiling(double **M, double **T, int n){
    int jump=8;
    for (int i = 0; i < n; i+=jump){
     	for (int j = 0; j < n; j+=jump) {
-          	for (int k = i; k < i+jump; ++k){
+         	for (int k = i; k < i+jump; ++k){
     	         for (int h = j; h < j+jump; ++h) {
                    	T[k][h] = M[h][k];
-               }
-         	 }
-    	 }
+                   	}
+         	}
+    	}
    }
 }
 int checkSymImp(double **M, int n){
@@ -79,12 +79,12 @@ void matTransposeImp(double **M, double **T, int n){
    }
 }
 int checkSymOMP(double **M, int t, int n){
-   int sym=1, i, j;
-#pragma omp parallel num_threads(t) private(i, j) shared(M)
+   int sym=1;
+#pragma omp parallel num_threads(t) 
 {
    #pragma omp for collapse(2) schedule(static, 8)
-   for(i=0; i<n; i++){
-    	for(j=0; j<n; j++){
+   for(int i=0; i<n; i++){
+    	for(int j=0; j<n; j++){
         	if(M[i][j]!=M[j][i])
            	sym = 0;
     	}
@@ -93,26 +93,24 @@ int checkSymOMP(double **M, int t, int n){
    return sym;
 }
 void matTransposeOMP(double **M, double **T, int t, int n){
-   int i, j;
-#pragma omp parallel num_threads(t) private(i, j) shared(M, T)
+#pragma omp parallel num_threads(t) 
 {
    #pragma omp for collapse(2) schedule(static, 8)
-   for (i = 0; i < n; ++i){
-    	for (j = 0; j < n; ++j) {
+   for (int i = 0; i < n; ++i){
+    	for (int j = 0; j < n; ++j) {
          	T[i][j] = M[j][i];
     	}
    }
 }
 }
-
 int main(int argc, char *argv[]) {
    double **M;
    double **T;
-   int symmetric, repeat=5, n;
+   int symmetric, repeat=1, n;
 #ifdef _OPENMP
    double wt1,wt2;
 #endif
-   if(argc == 0){
+   if(argc !=2 ){
       printf("Error: wrong number of parameters");
    }
    else{
