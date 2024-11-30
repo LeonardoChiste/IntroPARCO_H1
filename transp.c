@@ -106,7 +106,7 @@ void matTransposeOMP(double **M, double **T, int t, int n){
 int main(int argc, char *argv[]) {
    double **M;
    double **T;
-   int symmetric, repeat=1, n;
+   int symmetric, repeat=10, n=0;
 #ifdef _OPENMP
    double wt1,wt2;
 #endif
@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
       printf("Error: wrong number of parameters");
    }
    else{
-    n=atoi(argv[1]);
+        n=atoi(argv[1]);
    	printf("Size: %d x %d\n", n, n);
    	M = (double **)malloc(n * sizeof(double *));
    	T = (double **)malloc(n * sizeof(double *));
